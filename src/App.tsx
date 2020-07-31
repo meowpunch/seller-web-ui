@@ -1,27 +1,16 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
-import {routes} from "./routes";
+import {BrowserRouter as Router} from "react-router-dom";
+import {SwitchRoutes, routes} from './routes/index'
 
-const switchRoutes = (
-    <Switch>
-        {routes.map((r, k) => {
-            return (
-                <Route
-                    path={r.path}
-                    component={r.component}
-                    key={k}
-                />
-            )
-        })}
-        <Redirect from="/" to="/dashboard"/>
-    </Switch>
-)
+import SideBar from "./components/SideBar"
+
 
 const App: React.FC = () => {
     return (
         <Router>
-            {switchRoutes}
+            <SideBar routes={routes}/>
+            <SwitchRoutes/>
         </Router>
     );
 }
