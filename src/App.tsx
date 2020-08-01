@@ -1,27 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {BrowserRouter as Router} from "react-router-dom";
-import {routes, SwitchRoutes} from './routes/index'
+import {AuthRoutes, routes, SwitchRoutes} from './routes'
 
 import SideBar from "./components/SideBar"
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-
-
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({}),
-);
+import AccountDataContext from './context/AccountData';
 
 const App: React.FC = () => {
-    const classes = useStyles()
 
-    return (
-        <Router>
-            <div>
+    const state = useContext(AccountDataContext);
+
+    if (state.account.isAuthenticated) {
+        return (
+            <Router>
                 <SideBar routes={routes}/>
                 <SwitchRoutes/>
-            </div>
-        </Router>
-    );
+            </Router>
+        );
+    } else {
+        return (
+            <Router>
+                <AuthRoutes/>
+            </Router>
+        );
+    }
+
 }
 
 export default App;

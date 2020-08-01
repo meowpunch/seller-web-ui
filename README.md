@@ -1,8 +1,9 @@
 # Vibi Web UI service for seller 
 Seller Web UI service for the following:
-- manage account with AWS congnito
-- fetch api with Vibi API service
-- graph figures with D3.js 
+- manage account with AWS congnito [Todo]
+    - sign-up, sign-in, log-out
+- fetch api with Vibi API service [InProgress]
+- graph figures with D3.js [InProgress]
 
 ## Getting Started
 ```shell script

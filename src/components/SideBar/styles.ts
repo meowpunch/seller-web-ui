@@ -25,13 +25,32 @@ const useStyles = makeStyles((theme: Theme) =>
             ...theme.mixins.toolbar,
             justifyContent: 'center',
         },
-        drawerList: {
+        drawerContent: {
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            alignItems: 'center',
+            padding: theme.spacing(0, 1),
+            ...theme.mixins.toolbar,
+            justifyContent: 'space-between',
+        },
+        topList: {
             color: "white",
             marginTop: "20px",
             paddingLeft: "0",
             paddingTop: "0",
             paddingBottom: "0",
             marginBottom: "0",
+            listStyle: "none",
+            position: "unset"
+        },
+        bottomList: {
+            color: "white",
+            marginTop: "0",
+            paddingLeft: "0",
+            paddingTop: "0",
+            paddingBottom: "0",
+            marginBottom: "20px",
             listStyle: "none",
             position: "unset"
         },

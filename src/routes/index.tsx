@@ -1,16 +1,19 @@
 import React from "react";
 // components
 import DashboardPage from "../components/pages/Dashboard"
-import SellerProfile from "../components/pages/Profile"
+import ProfilePage from "../components/pages/Profile"
+import SettingsPage from "../components/pages/Settings"
+import SignInPage from "../components/pages/SignIn"
+import SignUpPage from "../components/pages/SignUp"
 // icons
-import {Dashboard, Person, SvgIconComponent} from "@material-ui/icons";
+import {Dashboard, Person, Settings, SvgIconComponent} from "@material-ui/icons";
 // router
 import {Redirect, Route, Switch} from "react-router-dom";
 import useStyles from "./styles";
 
 export interface RouteInfo {
     path: string,
-    name: string,
+    label: string,
     icon: SvgIconComponent,
     component: React.FC,
 }
@@ -18,15 +21,34 @@ export interface RouteInfo {
 export const routes: RouteInfo[] = [
     {
         path: "/dashboard",
-        name: "Dashboard",
+        label: "Dashboard",
         icon: Dashboard,
         component: DashboardPage
     },
     {
         path: "/profile",
-        name: "Profile",
+        label: "Profile",
         icon: Person,
-        component: SellerProfile
+        component: ProfilePage
+    },
+    {
+        path: "/settings",
+        label: "Settings",
+        icon: Settings,
+        component: SettingsPage
+    },
+]
+
+export const authRoutes = [
+    {
+        path: "/sign-in",
+        label: "SignIn",
+        component: SignInPage
+    },
+    {
+        path: "/sign-up",
+        label: "SignUp",
+        component: SignUpPage
     }
 ]
 
@@ -34,19 +56,28 @@ export const SwitchRoutes: React.FC = () => {
     const classes = useStyles()
 
     return (
-        <div className={classes.wrapper}>
-            <Switch>
+        <Switch>
+            <div className={classes.wrapper}>
                 {routes.map((r, k) => {
                     return (
-                        <Route
-                            path={r.path}
-                            component={r.component}
-                            key={k}
-                        />
+                        <Route path={r.path} component={r.component} key={k}/>
                     )
                 })}
                 <Redirect from="/" to="/dashboard"/>
-            </Switch>
-        </div>
+            </div>
+        </Switch>
+    )
+}
+
+export const AuthRoutes: React.FC = () => {
+    return (
+        <Switch>
+            {authRoutes.map((r, k) => {
+                return (
+                    <Route path={r.path} component={r.component} key={k}/>
+                )
+            })}
+            <Redirect from="/" to="/sign-in"/>
+        </Switch>
     )
 }

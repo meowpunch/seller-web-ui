@@ -1,18 +1,13 @@
 import React from 'react';
 
-import {NavLink, withRouter, RouteComponentProps} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {ExitToApp} from '@material-ui/icons';
 
 import useStyles from "./styles";
 
-import {RouteInfo} from "../../routes/index";
-
+import {RouteInfo} from "../../routes";
 
 interface Props extends RouteComponentProps {
     routes: RouteInfo[]
@@ -34,6 +29,43 @@ const Index: React.FC<Props> = (props: Props) => {
         return window.location.pathname === routeName;
     }
 
+    const topList = props.routes.map((r, k) => {
+        return (
+            <NavLink
+                to={r.path}
+                className={classes.drawerLink}
+                activeClassName="active"
+                key={k}
+            >
+                <ListItem button
+                          className={checkActivation(r.path) ? classes.itemLinkActive : classes.itemLink}>
+                    <ListItemIcon>
+                        <r.icon className={classes.itemIcon}/>
+                    </ListItemIcon>
+                    <ListItemText>
+                        {r.label}
+                    </ListItemText>
+                </ListItem>
+            </NavLink>
+        )
+    })
+
+    const bottomList = <NavLink
+        to={"/sign-in"}
+        className={classes.drawerLink}
+        activeClassName="active"
+    >
+        <ListItem button
+                  className={classes.itemLink}>
+            <ListItemIcon>
+                <ExitToApp className={classes.itemIcon}/>
+            </ListItemIcon>
+            <ListItemText>
+                Sign out
+            </ListItemText>
+        </ListItem>
+    </NavLink>
+
     return (
 
         <Drawer
@@ -48,28 +80,14 @@ const Index: React.FC<Props> = (props: Props) => {
             </div>
             <Divider variant="middle" light={true}/>
 
-            <List className={classes.drawerList}>
-                {props.routes.map((r, k) => {
-                    return (
-                        <NavLink
-                            to={r.path}
-                            className={classes.drawerLink}
-                            activeClassName="active"
-                            key={k}
-                        >
-                            <ListItem button
-                                      className={checkActivation(r.path) ? classes.itemLinkActive : classes.itemLink}>
-                                <ListItemIcon>
-                                    <r.icon className={classes.itemIcon}/>
-                                </ListItemIcon>
-                                <ListItemText>
-                                    {r.name}
-                                </ListItemText>
-                            </ListItem>
-                        </NavLink>
-                    )
-                })}
-            </List>
+            <div className={classes.drawerContent}>
+                <List className={classes.topList}>
+                    {topList}
+                </List>
+                <List className={classes.bottomList}>
+                    {bottomList}
+                </List>
+            </div>
         </Drawer>
     );
 }
