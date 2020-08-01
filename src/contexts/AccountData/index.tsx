@@ -19,7 +19,7 @@ export const initialAccountData = {
         email: "",
         phoneNumber: ""
     },
-    isAuthenticated: true,
+    isAuthenticated: false,
 
     setAccount: (data: Account) => {},
     authorize: () => {},
