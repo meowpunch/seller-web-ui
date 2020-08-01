@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import AccountDataContext, {AccountData, initialAccountData} from "./index";
+import AccountDataContext, {Account, AccountData, initialAccountData} from "./index";
 
 type Props = {
     children: React.ReactNode
@@ -9,9 +9,37 @@ type Props = {
 
 const AccountDataProvider: React.FC<Props> = (props: Props) => {
 
-    const signIn = () => {
+    const setAccount = (data: Account) => {
+        setState({
+            ...state,
+            account: data
+        })
+    }
 
-        /*
+    const authorize = () => {setState({...state, isAuthenticated: true})}
+    const deauthorize = () => {setState({...state, isAuthenticated: false})}
+
+    const initState = {
+        ...initialAccountData,
+        setAccount: setAccount,
+        authorize: authorize,
+        deauthorize: deauthorize
+    }
+
+    const [state, setState] = useState<AccountData>(initState)
+
+    return (
+        <AccountDataContext.Provider value={state}>
+            {props.children}
+        </AccountDataContext.Provider>
+    )
+}
+
+export default AccountDataProvider
+
+
+// fetch API
+/*
         try {
             const res = await fetch('/api/account/');
             const account = await res.json();
@@ -22,7 +50,6 @@ const AccountDataProvider: React.FC<Props> = (props: Props) => {
 
             console.log(e);
         }
-         */
 
         fetch('https://localhost:9000/api-seler/sign-in', {
             method: "GET",
@@ -44,24 +71,7 @@ const AccountDataProvider: React.FC<Props> = (props: Props) => {
                     })
                 console.log(state.account)
             })
-    }
-
-    const initState = {
-        account: initialAccountData.account,
-        signIn: signIn,
-    }
-
-    const [state, setState] = useState<AccountData>(initState)
-
-    return (
-        <AccountDataContext.Provider value={state}>
-            {props.children}
-        </AccountDataContext.Provider>
-    )
-}
-
-export default AccountDataProvider
-
+         */
 
 // class component with Context API
 /* class AccountDataProvider extends React.Component<Props, State> {

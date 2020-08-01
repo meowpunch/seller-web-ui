@@ -1,7 +1,7 @@
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import { defaultFont } from "../../themes/default";
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,9 +21,13 @@ const useStyles = makeStyles((theme: Theme) =>
         drawerHeader: {
             display: 'flex',
             alignItems: 'center',
-            padding: theme.spacing(0, 1),
+            alignSelf: 'center',
+            height: '80px',
+            padding: theme.spacing(0, 4),
             ...theme.mixins.toolbar,
             justifyContent: 'center',
+            borderBottom: '1px solid rgba(180,180,180,0.3)',
+            ...defaultFont
         },
         drawerContent: {
             display: 'flex',
@@ -36,7 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         topList: {
             color: "white",
-            marginTop: "20px",
+            width: "250px",
+            marginTop: "10px",
             paddingLeft: "0",
             paddingTop: "0",
             paddingBottom: "0",
@@ -46,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         bottomList: {
             color: "white",
+            width: "250px",
             marginTop: "0",
             paddingLeft: "0",
             paddingTop: "0",

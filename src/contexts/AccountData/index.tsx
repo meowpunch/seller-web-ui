@@ -2,21 +2,28 @@ import * as React from "react";
 
 export type Account = {
     email: string,
-    isAuthenticated: boolean
+    phoneNumber: string
 }
 
 export type AccountData = {
     account: Account,
-    signIn: () => void
+    isAuthenticated: boolean,
+
+    setAccount: (data: Account) => void
+    authorize: () => void
+    deauthorize: () => void
 }
 
 export const initialAccountData = {
     account: {
-      email: "",
-      isAuthenticated: false
+        email: "",
+        phoneNumber: ""
     },
+    isAuthenticated: true,
 
-    signIn: () => {}
+    setAccount: (data: Account) => {},
+    authorize: () => {},
+    deauthorize: () => {}
 };
 
 const AccountDataContext = React.createContext<AccountData>(initialAccountData);

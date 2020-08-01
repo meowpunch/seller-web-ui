@@ -1,10 +1,10 @@
 import React from "react";
 // components
-import DashboardPage from "../components/pages/Dashboard"
-import ProfilePage from "../components/pages/Profile"
-import SettingsPage from "../components/pages/Settings"
-import SignInPage from "../components/pages/SignIn"
-import SignUpPage from "../components/pages/SignUp"
+import DashboardPage from "../pages/Dashboard"
+import ProfilePage from "../pages/Profile"
+import SettingsPage from "../pages/Settings"
+import SignInPage from "../pages/SignIn"
+import SignUpPage from "../pages/SignUp"
 // icons
 import {Dashboard, Person, Settings, SvgIconComponent} from "@material-ui/icons";
 // router

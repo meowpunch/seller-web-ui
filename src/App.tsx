@@ -3,13 +3,13 @@ import {BrowserRouter as Router} from "react-router-dom";
 import {AuthRoutes, routes, SwitchRoutes} from './routes'
 
 import SideBar from "./components/SideBar"
-import AccountDataContext from './context/AccountData';
+import AccountDataContext from './contexts/AccountData';
 
 const App: React.FC = () => {
 
     const state = useContext(AccountDataContext);
 
-    if (state.account.isAuthenticated) {
+    if (state.isAuthenticated) {
         return (
             <Router>
                 <SideBar routes={routes}/>

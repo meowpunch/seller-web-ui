@@ -40,7 +40,7 @@ const Index: React.FC = () => {
 
     let x = scaleBand()
         .domain(data.map(d => d.name))
-        .range([500, dimensions.width])
+        .range([0, dimensions.width])
         .padding(0.05)
 
     let y = scaleLinear()

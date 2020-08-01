@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FormEvent, useContext, useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,66 +10,72 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import useStyles from './style'
+import useStyles from './styles'
 import {Box} from "@material-ui/core";
 
-import Copyright from '../../Copyright'
-// import {SignIn} from "../../../services/api";
+import Copyright from '../../components/Copyright'
+import AccountDataContext from "../../contexts/AccountData";
 
 
 const Index: React.FC = () => {
+    const state = useContext(AccountDataContext);
+
     const classes = useStyles()
-
-    const [url, setUrl] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isError, setIsError] = useState<boolean>(false);
-
-    useEffect(() => {
-        console.log("wth")
-        const fetchData = async () => {
-            setIsError(false);
-            setIsLoading(true);
-
-            console.log(url)
-            const result = await fetch(url, {
-                method: 'GET',
-                headers: {"X-Access-Token": email}
-            });
-
-            //setData(result.data);
-            console.log(result)
-
-
-            setIsLoading(false);
-        };
-
-        fetchData().then(() => {
-            console.log(url)});
-    }, [url]);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [accessToken, setAccessToken] = useState('');
 
     const textFieldList = [
         {id: 'email', label: 'Email Address', value: email, fn: setEmail},
         {id: 'password', label: 'Password', value: password, fn: setPassword}
     ]
 
-    const SignIn = (accessToken: string) => {
+    const [url, setUrl] = useState<string>("http://localhost:9000/api/sellers/sign-in");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsError(false);
+            setIsLoading(true);
 
-        return setUrl;
+            try {
+                console.log(url)
+                const result = await fetch(url, {
+                    method: 'GET',
+                    headers: {"X-Access-Token": accessToken}
+                });
+
+                // TODO: setAccount
+                state.setAccount({
+                    email: "",
+                    phoneNumber: "",
+                })
+            } catch (e) {
+                setIsError(true);
+                console.log(e);
+            }
+
+            setIsLoading(false);
+        };
+
+        fetchData();
+    }, [accessToken, state, url]);
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = {'email': email, 'password': password}
+        console.log(data);
+
+        // TODO: fetch API with AWS cognito
+        setAccessToken("1234");
+        // TODO: deprecated
+        state.authorize();
+
+        // TODO: http -> https
+        setUrl("http://localhost:9000/api/sellers/sign-in")
     }
-
-    // const doFetch = SignIn("1234")
-    // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     console.log('Email:', email, 'Password: ', password);
-    //
-    //     // TODO: fetch API with AWS cognito
-    //     const cognitoId = "1234"
-    //     SignIn(cognitoId)
-    // }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -81,13 +87,7 @@ const Index: React.FC = () => {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate onSubmit={(e) => {
-                    e.preventDefault()
-                    const data = {'email': email, 'password': password}
-                    console.log(data)
-                    // TODO: http -> https
-                    setUrl("http://localhost:9000/api/sellers/sign-in")
-                }}>
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
                     {textFieldList.map((tf, k) => {
                         return (
                             <TextField
@@ -119,8 +119,8 @@ const Index: React.FC = () => {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                            <Link href="/sign-up" variant="body2">
+                                Don't have an account? Sign Up
                             </Link>
                         </Grid>
                     </Grid>

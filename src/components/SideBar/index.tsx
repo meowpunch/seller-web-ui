@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 
@@ -8,12 +8,15 @@ import {ExitToApp} from '@material-ui/icons';
 import useStyles from "./styles";
 
 import {RouteInfo} from "../../routes";
+import AccountDataContext from "../../contexts/AccountData";
 
 interface Props extends RouteComponentProps {
     routes: RouteInfo[]
 }
 
 const Index: React.FC<Props> = (props: Props) => {
+    const state = useContext(AccountDataContext);
+
     const classes = useStyles();
 
     // TODO: it's need for mobile view
@@ -55,7 +58,7 @@ const Index: React.FC<Props> = (props: Props) => {
         className={classes.drawerLink}
         activeClassName="active"
     >
-        <ListItem button
+        <ListItem button onClick={_ => state.deauthorize()}
                   className={classes.itemLink}>
             <ListItemIcon>
                 <ExitToApp className={classes.itemIcon}/>
