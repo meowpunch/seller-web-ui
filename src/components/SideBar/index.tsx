@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {NavLink} from 'react-router-dom';
+import {NavLink, withRouter, RouteComponentProps} from 'react-router-dom';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -11,10 +11,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import useStyles from "./styles";
 
-import {RouteInfo} from "../../routes/index"
+import {RouteInfo} from "../../routes/index";
 
 
-type Props = {
+interface Props extends RouteComponentProps {
     routes: RouteInfo[]
 }
 
@@ -30,7 +30,12 @@ const Index: React.FC<Props> = (props: Props) => {
     //     setOpen(false);
     // };
 
+    const checkActivation = (routeName: string) => {
+        return window.location.pathname === routeName;
+    }
+
     return (
+
         <Drawer
             className={classes.drawer}
             variant="persistent"
@@ -41,20 +46,21 @@ const Index: React.FC<Props> = (props: Props) => {
             <div className={classes.drawerHeader}>
                 <div>[logo] VIBI ver 0.1.0</div>
             </div>
-            <Divider/>
+            <Divider variant="middle" light={true}/>
 
             <List className={classes.drawerList}>
                 {props.routes.map((r, k) => {
                     return (
                         <NavLink
                             to={r.path}
-                            // className={activePro + classes.item}
+                            className={classes.drawerLink}
                             activeClassName="active"
                             key={k}
                         >
-                            <ListItem button>
+                            <ListItem button
+                                      className={checkActivation(r.path) ? classes.itemLinkActive : classes.itemLink}>
                                 <ListItemIcon>
-                                    <r.icon/>
+                                    <r.icon className={classes.itemIcon}/>
                                 </ListItemIcon>
                                 <ListItemText>
                                     {r.name}
@@ -68,4 +74,4 @@ const Index: React.FC<Props> = (props: Props) => {
     );
 }
 
-export default Index;
+export default withRouter(Index);

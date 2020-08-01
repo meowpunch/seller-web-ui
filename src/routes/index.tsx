@@ -6,7 +6,7 @@ import SellerProfile from "../components/pages/Profile"
 import {Dashboard, Person, SvgIconComponent} from "@material-ui/icons";
 // router
 import {Redirect, Route, Switch} from "react-router-dom";
-
+import useStyles from "./styles";
 
 export interface RouteInfo {
     path: string,
@@ -31,18 +31,22 @@ export const routes: RouteInfo[] = [
 ]
 
 export const SwitchRoutes: React.FC = () => {
+    const classes = useStyles()
+
     return (
-        <Switch>
-            {routes.map((r, k) => {
-                return (
-                    <Route
-                        path={r.path}
-                        component={r.component}
-                        key={k}
-                    />
-                )
-            })}
-            <Redirect from="/" to="/dashboard"/>
-        </Switch>
+        <div className={classes.wrapper}>
+            <Switch>
+                {routes.map((r, k) => {
+                    return (
+                        <Route
+                            path={r.path}
+                            component={r.component}
+                            key={k}
+                        />
+                    )
+                })}
+                <Redirect from="/" to="/dashboard"/>
+            </Switch>
+        </div>
     )
 }

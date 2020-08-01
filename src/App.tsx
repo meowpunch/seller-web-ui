@@ -1,16 +1,25 @@
 import React from 'react';
-import './App.css';
 import {BrowserRouter as Router} from "react-router-dom";
-import {SwitchRoutes, routes} from './routes/index'
+import {routes, SwitchRoutes} from './routes/index'
 
 import SideBar from "./components/SideBar"
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
+
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({}),
+);
 
 const App: React.FC = () => {
+    const classes = useStyles()
+
     return (
         <Router>
-            <SideBar routes={routes}/>
-            <SwitchRoutes/>
+            <div>
+                <SideBar routes={routes}/>
+                <SwitchRoutes/>
+            </div>
         </Router>
     );
 }
