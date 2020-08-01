@@ -32,7 +32,7 @@ let initialData = [
     },
 ]
 const Index: React.FC = () => {
-    const dimensions = { width: 800, height: 500 }
+    const dimensions = { width: 350, height: 300 }
     const svgRef = useRef<SVGSVGElement | null>(null)
     const [data, setData] = useState(initialData)
     const [name, setName] = useState('')
@@ -66,7 +66,7 @@ const Index: React.FC = () => {
                 .attr('x', d => x(d.name)!)
                 .attr('y', dimensions.height)
                 .attr('width', x.bandwidth)
-                .attr('fill', 'orange')
+                .attr('fill', '#2196f3')
                 .attr('height', 0)
                 /**
                  * Transitions work similar to CSS Transitions
@@ -117,7 +117,7 @@ const Index: React.FC = () => {
                 .attr('y', d => y(d.units))
                 .attr('width', x.bandwidth)
                 .attr('height', d => dimensions.height - y(d.units))
-                .attr('fill', 'orange')
+                .attr('fill', '#2196f3')
 
             rects
                 .enter()
@@ -132,7 +132,7 @@ const Index: React.FC = () => {
                 .ease(easeElastic)
                 .attr('height', d => dimensions.height - y(d.units))
                 .attr('y', d => y(d.units))
-                .attr('fill', 'orange')
+                .attr('fill', '#2196f3')
         }
     }, [data])
 

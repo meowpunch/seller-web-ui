@@ -1,10 +1,12 @@
 import React from "react";
-
+import useStyles from "./styles";
 
 const Index: React.FC = () => {
+    const classes = useStyles();
+
     return (
-        <div>
-           profile
+        <div className={classes.wrapper}>
+            profile
         </div>
     )
 }

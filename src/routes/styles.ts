@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
             ...transition,
             maxHeight: "100%",
             width: "100%",
-            overflowScrolling: "touch"
+            overflowScrolling: "touch",
+            backgroundColor: "rgb(240, 240, 240)"
         }
     }))
 

@@ -1,12 +1,15 @@
 import React from "react";
 
+import useStyles from "./styles";
 
 const Index: React.FC = () => {
+    const classes = useStyles();
+
     return (
-        <div>
+        <div className={classes.wrapper}>
            Settings
         </div>
     )
 }
 
-export default Index
+export default Index;
