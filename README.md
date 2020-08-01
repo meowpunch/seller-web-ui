@@ -1,8 +1,9 @@
 # Vibi Web UI service for seller 
 Seller Web UI service for the following:
 - manage account with AWS congnito [Todo]
-    - sign-up, sign-in, log-out
+    - setup AWS cognito
 - fetch api with Vibi API service [InProgress]
+    - akka http handle CORS
 - graph figures with D3.js [InProgress]
 
 ## Getting Started
