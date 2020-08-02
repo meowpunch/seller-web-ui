@@ -7,9 +7,9 @@ import AccountDataContext from './contexts/AccountData';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(_ =>
     createStyles({
-        main: {
+        header: {
             display: 'flex',
             width: '100%',
             height: '80px',
@@ -27,7 +27,7 @@ const App: React.FC = () => {
             <Router>
                 <SideBar routes={routes}/>
                 <div>
-                    <div className={classes.main}></div>
+                    <div className={classes.header}></div>
                     <SwitchRoutes/>
                 </div>
             </Router>

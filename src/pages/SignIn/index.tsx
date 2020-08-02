@@ -15,6 +15,8 @@ import {Box} from "@material-ui/core";
 
 import Copyright from '../../components/Copyright'
 import AccountDataContext from "../../contexts/AccountData";
+import {AuthenticationDetails, CognitoUser, CognitoUserSession} from "amazon-cognito-identity-js";
+import {userPool} from "../../services/cognito";
 
 
 const Index: React.FC = () => {
@@ -63,18 +65,40 @@ const Index: React.FC = () => {
         fetchData();
     }, [accessToken, state, url]);
 
+    const user = new CognitoUser({
+        Username: email,
+        Pool: userPool
+    })
+
+    const authDetails = new AuthenticationDetails({
+        Username: email,
+        Password: password
+    })
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const data = {'email': email, 'password': password}
-        console.log(data);
 
-        // TODO: fetch API with AWS cognito
-        setAccessToken("1234");
-        // TODO: deprecated
-        state.authorize();
+        user.authenticateUser(authDetails, {
+            onSuccess: (data: CognitoUserSession) => {
+                console.log('onSuccess', data)
+                setAccessToken(data.getAccessToken().getJwtToken());
 
-        // TODO: http -> https
-        setUrl("http://localhost:9000/api/sellers/sign-in")
+                // TODO: deprecated
+                state.authorize();
+
+                // TODO: http -> https
+                setUrl("http://localhost:9000/api/sellers/sign-in")
+            },
+
+            onFailure: err => {
+                console.log('onFailure', err)
+            },
+
+            newPasswordRequired: data => {
+                console.log('newPasswordRequired', data)
+            }
+        })
+
     }
 
     return (
@@ -93,7 +117,7 @@ const Index: React.FC = () => {
                             <TextField
                                 variant="outlined" margin="normal" required fullWidth key={k}
                                 id={tf.id} label={tf.label} name={tf.id} autoComplete={tf.id}
-                                value={tf.value} onChange={(e) => tf.fn(e.target.value)}
+                                type={tf.id} value={tf.value} onChange={(e) => tf.fn(e.target.value)}
                             />
                         )
                     })}

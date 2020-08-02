@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -14,6 +12,8 @@ import Container from '@material-ui/core/Container';
 
 import Copyright from '../../components/Copyright';
 import useStyles from './styles'
+import {CognitoUserAttribute, CognitoUserPool, ICognitoUserPoolData} from "amazon-cognito-identity-js";
+import {userPool} from "../../services/cognito";
 
 const Index: React.FC = () => {
     const classes = useStyles();
@@ -30,6 +30,16 @@ const Index: React.FC = () => {
         {id: 'phoneNumber', label: 'Phone Number', value: phoneNumber, fn: setPhoneNumber},
     ]
 
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+
+        const emailAttribute: CognitoUserAttribute = new CognitoUserAttribute({Name: 'email', Value: email})
+        userPool.signUp(email, password, [emailAttribute], [], (err,data) => {
+            if (err) console.log(err)
+            console.log(data)
+        });
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
@@ -40,7 +50,7 @@ const Index: React.FC = () => {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             {textFieldList.map((tf, k) => {
@@ -48,19 +58,13 @@ const Index: React.FC = () => {
                                     <TextField
                                         variant="outlined" margin="normal" required fullWidth key={k}
                                         id={tf.id} label={tf.label} name={tf.id} autoComplete={tf.id}
-                                        value={tf.value} onChange={(e) => tf.fn(e.target.value)}
+                                        type={tf.id} value={tf.value} onChange={(e) => tf.fn(e.target.value)}
                                     />
                                 )
                             })}
                         </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
+                    <Button className={classes.submit} type="submit" fullWidth variant="contained" color="primary">
                         Sign Up
                     </Button>
                     <Grid container justify="flex-end">
